@@ -1,23 +1,7 @@
 import uuid
 
 from setuptools import setup, find_packages
-try: # for pip >= 10
-    from pip._internal.req import parse_requirements
-except ImportError: # for pip <= 9.0.3
-    from pip.req import parse_requirements
-
-
-
-def get_requirements(source):
-    try:
-        install_reqs = parse_requirements(source, session=uuid.uuid1())
-    except TypeError:
-        # Older version of pip.
-        install_reqs = parse_requirements(source)
-    required = sorted(set([str(ir.req) for ir in install_reqs]))
-    return list(required)
-
-
+import pkg_resources
 
 version = '0.11.dev0'
 
@@ -33,7 +17,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     requires=['django(>=1.8)'],
-    install_requires=get_requirements('requirements.txt'),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
